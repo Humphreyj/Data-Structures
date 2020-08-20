@@ -1,6 +1,6 @@
 
 class Node:
-    def __init__(self, value, next=None):
+    def __init__(self, value=None, next=None):
         self.value = value
         self.next = next
     def get_value(self):
@@ -37,7 +37,7 @@ class LinkedList:
     def remove_head(self):
         if not self.head:
             return None
-        if self.head == self.tail:
+        if self.head is not self.tail:
             current_head = self.head
             self.head = None
             self.tail = None
@@ -50,19 +50,20 @@ class LinkedList:
             return current_head.value
    #remove tail 
     def remove_tail(self):
-        if self.tail is None:
+        if not self.head:
             return None
-        elif self.tail == self.head: #case for length == 1
-            value = self.tail.get_value() #store the tails value with our get_value method
-            self.head = None #set head to none
-            self.tail = None #set tail to none
-            self.length -= 1
+        if self.head == self.tail:
+            value = self.head.get_value()
+            self.head = None
+            self.tail = None
             return value
-        else:
-            value = self.tail.get_value()
-            self.tail = self.tail.get_next()#set the tail to the next value
-            self.length -= 1
-            return value
+        current =  self.head
+        while current.get_next() is not self.tail:
+            current = current.get_next()
+        value = self.tail.get_value()
+        self.tail = current
+        self.tail.set_next(None)
+        return value
 
 
       
